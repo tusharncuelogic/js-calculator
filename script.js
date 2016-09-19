@@ -16,15 +16,22 @@ var calculate = function() {
 
 var addHistory = function(input , output) {
 	var history = document.getElementById("history") ;
-	var node = document.createElement("DIV");
+	var node = document.createElement("DIV") ;
 	var inputdiv = document.createElement("span");
+	var delete_div = document.createElement("span");
+	node.className = 'history_row';
 	inputdiv.className = 'history_input';
+	delete_div.className = 'history_delete';
 	var inputtext = document.createTextNode(input);
-	var outputdiv = document.createTextNode("="+output);
 	inputdiv.appendChild(inputtext);
+	var outputdiv = document.createTextNode("="+output);
+	var deletetext = document.createTextNode("x");
+	delete_div.appendChild(deletetext);	
 	node.appendChild(inputdiv);
 	node.appendChild(outputdiv);
-	history.appendChild(node) ;   			
+	node.appendChild(delete_div);
+	history.appendChild(node) ;
+
 }
 
 var loadHistory = function() {
@@ -37,5 +44,9 @@ document.addEventListener('click', function(e) {
 	    if(target.className=="history_input")
 	    {
 	    	res.value = target.textContent;
+	    }
+	    if(target.className=="history_delete")
+	    {
+	    	target.parentNode.style.display = "None";
 	    }
 	}, false);
