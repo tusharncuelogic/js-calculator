@@ -36,8 +36,6 @@ function Calculator() {
 					str =  str.replace(tmp,"");
 				}
 			}
-
-			alert(this.result) ;
 		}
 		else {
 			alert("Invalid expression");
