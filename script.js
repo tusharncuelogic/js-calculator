@@ -61,20 +61,18 @@ var addVal = function(val) {
 
 
 var calculate = Calculator();
-
 var inputdiv = document.getElementById("result") ;
+var historydiv = document.getElementById( "history");
 
-var histories = [] ;
+historydiv.innerHTML = localStorage.getItem("histories");
 
 document.querySelector("#frmCalc").addEventListener("submit", function(e){
     var input = inputdiv.value;
     var output = calculate(input);
     inputdiv.value = output;
     var history_txt = '<div class="history_row"><span class="history_input">'+input+'</span> = <b>'+output+'</b><span class="history_delete">x</span></div>';
-    document.getElementById( "history").innerHTML  += history_txt ;    
-    localStorage.setItem("histories", histories);
-
-
+    historydiv.innerHTML  += history_txt ;  
+    localStorage.setItem("histories", historydiv.innerHTML);
     e.preventDefault();
 });
 
@@ -88,6 +86,7 @@ document.addEventListener('click', function(e) {
     if(target.className=="history_delete")
     {
     	target.parentNode.style.display = "None" ;
+    	localStorage.setItem("histories", historydiv.innerHTML);
     }
 }, false);
 
