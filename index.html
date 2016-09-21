@@ -8,13 +8,12 @@
 		table, tr {width:100%;}
 		td{text-align: center;}
 		#result{width: 100%;height:40px;line-height: 50px;font-size: 16px;font-weight: bold;}
-		input[type="button"]{width: 100%;border:none;}
+		input[type="button"] , input[type="submit"]{width: 100%;border:none;}
 		.history_delete{float: right;width: 30px;color: red;cursor: pointer;}
-
 	</style>
 	<h3 style="text-align:center;">Calculator</h3>
-	<div id="history" onclick="loadHistory()"></div>
-    <form Name="calc" onSubmit="calculate()">
+	<div id="history"></div>
+    <form Name="calc" id="frmCalc">
         <table border=2>        	
             <tr>
                 <td colspan=4>
@@ -71,7 +70,7 @@
                     <input type=button value="C" onclick="addVal(this.value)">
                 </td>
                 <td>
-                    <input type=button value="=" onclick="calculate()">
+                    <input type="submit" value="=">
                 </td>
                 <td>
                     <input type=button value="/" onclick="addVal(this.value)">
