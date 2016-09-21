@@ -85,7 +85,7 @@ document.addEventListener('click', function(e) {
     }
     if(target.className=="history_delete")
     {
-    	target.parentNode.style.display = "None" ;
+    	target.parentNode.parentNode.removeChild(target.parentNode)
     	localStorage.setItem("histories", historydiv.innerHTML);
     }
 }, false);
