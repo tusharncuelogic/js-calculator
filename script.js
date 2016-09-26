@@ -1,5 +1,65 @@
 function Calculator() {
+
+	var calc_html = '<form class="frm_calc"> <table border=2> <tr> <td colspan=4> <input type=text Name="display" class="calc_result_box"> </td></tr><tr> <td> <input type=button value="0" class="add_val"> </td><td> <input type=button value="1" class="add_val"> </td><td> <input type=button value="2" class="add_val"> </td><td> <input type=button value="+" class="add_val"> </td></tr><tr> <td> <input type=button value="3" class="add_val"> </td><td> <input type=button value="4" class="add_val"> </td><td> <input type=button value="5" class="add_val"> </td><td> <input type=button value="-" class="add_val"> </td></tr><tr> <td> <input type=button value="6" class="add_val"> </td><td> <input type=button value="7" class="add_val"> </td><td> <input type=button value="8" class="add_val"> </td><td> <input type=button value="*" class="add_val"> </td></tr><tr> <td> <input type=button value="9" class="add_val"> </td><td> <input type=button value="C" class="add_val"> </td><td> <input type="submit" value="=" class="calc_result"> </td><td> <input type=button value="/" class="add_val"> </td></tr></table> </form>';
+
 	var result  = '' ;
+	var result_box = '' ;
+
+	document.addEventListener('click', function(e) {
+
+	    e = e || window.event;
+	    var target = e.target;
+
+	    if(target.className=="history_input" || target.className=="history_delete"  || target.className=='calc_result' || target.className=='add_val') 
+	    {
+	    	var parent_form = getParentForm(target) ;
+	    	if(parent_form)
+	    	{
+	    		parent_form.id= 'form11';	    		
+	    		result_box=parent_form.getElementsByClassName('calc_result_box');
+	    	}
+
+	    	cls = target.className ;
+
+	    	if(cls=="history_input")
+		    {
+		    	inputdiv.value = target.textContent ;
+		    }
+		    else if(cls=="history_delete")
+		    {
+		    	target.parentNode.parentNode.removeChild(target.parentNode);
+		    	localStorage.setItem("histories",historydiv.innerHTML);
+		    }
+		    else if(cls=="add_val")
+		    {
+		    	result_box.display.value=result_box.display.value + target.value;
+		    }
+		    else if(cls=="calc_result")
+		    {
+		    	var calc_input = result_box.display.value;
+		    	result_box.display.value = calculate(calc_input);
+		    }
+
+		    e.preventDefault();
+
+	    }    
+	}, false) ;
+
+
+	var getParentForm =  function(ele) {
+		var cnt  =  1 ;
+		while(ele && cnt < 15) {
+			calc_frm =  ele.parentNode;
+			if(calc_frm.tagName == 'FORM') {
+				return calc_frm ;
+			}
+			else {
+				cnt++;
+				ele = calc_frm;
+			}
+		}
+		return null;
+	}
 
 	var operations = {
 		add: function(a,b){return a + b; } ,
@@ -37,40 +97,28 @@ function Calculator() {
 		return result;
 	}
 
-	return {calculate:calculate,delete_history:delete_history};
+	var delete_history =  function(){
 
-}
+	}
 
-var addVal = function(val) {
-	var res = document.getElementById("result") ;
-	res.value += val;
+	var add_history =  function(){
+
+	}
+
+	var init =  function(id) {
+		var calc  = document.getElementById(id);
+		
+		if(calc) {
+			calc.innerHTML = calc_html;
+		}
+		var frm =  calc.getElementsByTagName("form");
+		frm.id =  'frm_'+id;
+		console.log(frm.id);
+	}
+
+	return {init:init , calculate:calculate,delete_history:delete_history};
+
 }
 
 var calculator = Calculator() ;
-var inputdiv = document.getElementById("result") ;
-var historydiv = document.getElementById( "history") ;
-historydiv.innerHTML = localStorage.getItem("histories") ;
-document.querySelector("form").addEventListener("submit", function(e)
-{
-    var input  = inputdiv.value;
-    var output = calculator.calculate(input);
-    inputdiv.value = output;
-    var history_txt = '<div class="history_row"><span class="history_input">'+input+'</span> = <b>'+output+'</b><span class="history_delete">x</span></div>';
-    historydiv.innerHTML += history_txt ;
-    localStorage.setItem("histories", historydiv.innerHTML);
-    e.preventDefault();
-});
-
-document.addEventListener('click', function(e) {
-    e = e || window.event;
-    var target = e.target;
-    if(target.className=="history_input")
-    {
-    	inputdiv.value = target.textContent ;
-    }
-    if(target.className=="history_delete")
-    {
-    	target.parentNode.parentNode.removeChild(target.parentNode);
-    	localStorage.setItem("histories", historydiv.innerHTML);
-    }
-}, false) ;
+calculator.init("calc1");
