@@ -53,7 +53,7 @@ function Calculator() {
 
 }
 
-
+ 
 var addVal = function(val) {
 	var res = document.getElementById("result") ;
 	res.value += val;
